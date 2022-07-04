@@ -65,7 +65,7 @@ undo.addEventListener("click", (e) => {
         trackValue: track,
         undoRedoTracker
     }
-    socket.emit("undoRedo",data);
+    socket.emit("undo",data);
 })
 redo.addEventListener("click", (e) => {
     if (track < undoRedoTracker.length-1) track++;
@@ -74,7 +74,7 @@ redo.addEventListener("click", (e) => {
         trackValue: track,
         undoRedoTracker
     }
-    socket.emit("undoRedo",data);
+    socket.emit("redo",data);
 })
 
 function undoRedoCanvas(trackObj) {
@@ -167,7 +167,10 @@ socket.on("beginPath", (data) => {
 socket.on("drawStroke", (data) => {
     drawStroke(data);
 })
-socket.on("undoRedo", (data) => {
+socket.on("undo", (data) => {
+    undoRedoCanvas(data);
+})
+socket.on("redo", (data) => {
     undoRedoCanvas(data);
 })
 socket.on("backgroundCanvas", (data) => {
