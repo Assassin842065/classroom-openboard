@@ -8,11 +8,9 @@ let eraser = document.querySelector(".eraser");
 let sticky = document.querySelector(".sticky");
 let upload = document.querySelector(".upload");
 let extraCont=document.querySelector(".extra-cont");
-let backgroundColorCont=document.querySelector(".background-color-cont");
-let setBackground=document.querySelector(".set-background");
 let pencilFlag = false;
 let eraserFlag = false;
-let backgroundFlag=false;
+
 
 optionsCont.addEventListener("click", (e) => {
     // true -> tools show, false -> hide tools
@@ -22,32 +20,20 @@ optionsCont.addEventListener("click", (e) => {
     else closeTools();
 })
 
-setBackground.addEventListener("click",(e)=>{
-    backgroundFlag=!backgroundFlag;
-    if(backgroundFlag){
-        backgroundColorCont.style.display="flex";
-    }else{
-        backgroundColorCont.style.display="none";
-    }
-})
-
 function openTools() {
     let iconElem = optionsCont.children[0];
     iconElem.classList.remove("fa-times");
     iconElem.classList.add("fa-bars");
     toolsCont.style.display = "flex";
-    extraCont.style.display="flex";
 }
 function closeTools() {
     let iconElem = optionsCont.children[0];
     iconElem.classList.remove("fa-bars");
     iconElem.classList.add("fa-times");
     toolsCont.style.display = "none";
-    extraCont.style.display="none";
 
     pencilToolCont.style.display = "none";
     eraserToolCont.style.display = "none";
-    backgroundColorCont.style.display="none";
 }
 
 pencil.addEventListener("click", (e) => {

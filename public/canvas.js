@@ -8,8 +8,6 @@ let eraserWidthElem = document.querySelector(".eraser-width");
 let download = document.querySelector(".download");
 let redo = document.querySelector(".redo");
 let undo = document.querySelector(".undo");
-let backgroundColors=backgroundColorCont.querySelectorAll("div");
-let clearFrame=document.querySelector(".clear-frame");
 
 let penColor = "red";
 let eraserColor = "white";
@@ -142,55 +140,6 @@ download.addEventListener("click", (e) => {
     a.click();
 })
 
-backgroundColors.forEach(color => {
-    color.addEventListener("click",(e)=>{
-        let col=color.classList[0];
-        let data={
-            backColor: col,
-        }
-        socket.emit("backgroundCanvas",data);
-    })
-});
-
-function setBackgroundColorCanvas(data) {
-     let col=data.backColor;
-    // if(col=="blueish"){
-    //     document.body.style.backgroundColor="#273c75";
-    //     eraserColor="#273c75";
-    // }else if(col=="blackish"){
-    //     document.body.style.backgroundColor="#1e272e";
-    //     eraserColor="#1e272e";
-    // }else{
-    //     document.body.style.backgroundColor=col;
-    //     eraserColor=col;
-    // }
-
-    if(col=="blueish"){
-        tool.fillStyle="#273c75";
-    }else if(col=="blackish"){
-        tool.fillStyle="#1e272e";
-    }else{
-        tool.fillStyle=col;
-    }
-    tool.fillRect(0,0,canvas.width,canvas.height);
-}
-clearFrame.addEventListener("click",(e)=>{
-    let data = {
-        trackValue: track,
-        undoRedoTracker
-    }
-    socket.emit("clearFrame",data);
-})
-
-function clear(data) {
-    tool.clearRect(0,0,canvas.width,canvas.height);
-
-    track=data.trackValue;
-    undoRedoTracker=data.undoRedoTracker;
-    track=0;
-    undoRedoTracker=[];
-}
-
 socket.on("beginPath", (data) => {
     beginPath(data);
 })
@@ -200,10 +149,5 @@ socket.on("drawStroke", (data) => {
 socket.on("undoRedo", (data) => {
     undoRedoCanvas(data);
 })
-socket.on("backgroundCanvas", (data) => {
-    setBackgroundColorCanvas(data);
-})
-socket.on("clearFrame",(data)=>{
-    clear(data);
-})
+
 
