@@ -17,7 +17,7 @@ let penWidth = pencilWidthElem.value;
 let eraserWidth = eraserWidthElem.value;
 
 let undoRedoTracker = []; //Data
-let track = -1; // Represent which action from tracker array
+let track = 0; // Represent which action from tracker array
 
 let mouseDown = false;
 
@@ -80,6 +80,8 @@ redo.addEventListener("click", (e) => {
 function undoRedoCanvas(trackObj) {
     track = trackObj.trackValue;
     undoRedoTracker = trackObj.undoRedoTracker;
+    console.log(track);
+    console.log(undoRedoTracker);
     let url = undoRedoTracker[track];
     let img = new Image(); // new image reference element
     img.src = url;
