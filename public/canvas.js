@@ -61,7 +61,7 @@ canvas.addEventListener("mouseup", (e) => {
 })
 
 undo.addEventListener("click", (e) => {
-    if (track>0)
+    if (track>=0)
     {
         track--;
     }
