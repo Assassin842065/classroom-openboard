@@ -82,12 +82,26 @@ redo.addEventListener("click", (e) => {
     socket.emit("redo",data);
 })
 
-function undoRedoCanvas(trackObj) {
+function undoCanvas(trackObj) {
     track = trackObj.trackValue;
     undoRedoTracker = trackObj.undoRedoTracker;
     console.log(track);
     console.log(undoRedoTracker);
     let url = undoRedoTracker[track+1];
+    let img = new Image(); // new image reference element
+    img.src = url;
+    img.onload = (e) => {
+        tool.clearRect(0, 0, canvas.width, canvas.height);
+        tool.drawImage(img, 0, 0, canvas.width, canvas.height);
+    }
+}
+
+function redoCanvas(trackObj) {
+    track = trackObj.trackValue;
+    undoRedoTracker = trackObj.undoRedoTracker;
+    console.log(track);
+    console.log(undoRedoTracker);
+    let url = undoRedoTracker[track];
     let img = new Image(); // new image reference element
     img.src = url;
     img.onload = (e) => {
@@ -186,10 +200,10 @@ socket.on("drawStroke", (data) => {
     drawStroke(data);
 })
 socket.on("undo", (data) => {
-    undoRedoCanvas(data);
+    undoCanvas(data);
 })
 socket.on("redo", (data) => {
-    undoRedoCanvas(data);
+    redoCanvas(data);
 })
 socket.on("backgroundCanvas", (data) => {
     setBackgroundColorCanvas(data);
