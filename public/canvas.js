@@ -87,7 +87,7 @@ function undoRedoCanvas(trackObj) {
     undoRedoTracker = trackObj.undoRedoTracker;
     console.log(track);
     console.log(undoRedoTracker);
-    let url = undoRedoTracker[track];
+    let url = undoRedoTracker[track+1];
     let img = new Image(); // new image reference element
     img.src = url;
     img.onload = (e) => {
