@@ -52,7 +52,7 @@ canvas.addEventListener("mouseup", (e) => {
 
     let url = canvas.toDataURL();
     undoRedoTracker.push(url);
-    track = undoRedoTracker.length-1;
+    track++;
 })
 
 undo.addEventListener("click", (e) => {
@@ -161,7 +161,6 @@ function setBackgroundColorCanvas(data) {
 }
 
 socket.on("beginPath", (data) => {
-    // data -> data from server
     beginPath(data);
 })
 socket.on("drawStroke", (data) => {
