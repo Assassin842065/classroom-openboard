@@ -23,11 +23,8 @@ io.on("connection", (socket) => {
     socket.on("drawStroke", (data) => {
         io.sockets.emit("drawStroke", data);
     })
-    socket.on("undo", (data) => {
-        io.sockets.emit("undo", data);
-    })
-    socket.on("redo", (data) => {
-        io.sockets.emit("redo", data);
+    socket.on("undoRedo", (data) => {
+        io.sockets.emit("undoRedo", data);
     })
     socket.on("backgroundCanvas", (data) => {
         io.sockets.emit("backgroundCanvas", data);

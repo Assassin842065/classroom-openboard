@@ -55,13 +55,12 @@ canvas.addEventListener("mouseup", (e) => {
 
         let url = canvas.toDataURL();
         undoRedoTracker.push(url);
-        track=undoRedoTracker.length-1;
-        console.log(track);
+        track++;
     }   
 })
 
 undo.addEventListener("click", (e) => {
-    if (track>=0)
+    if (track>0)
     {
         track--;
     }
@@ -70,42 +69,24 @@ undo.addEventListener("click", (e) => {
         trackValue: track,
         undoRedoTracker
     }
-    socket.emit("undo",data);
+    socket.emit("undoRedo",data);
 })
 redo.addEventListener("click", (e) => {
     if (track < undoRedoTracker.length-1){
         track++;
-        if(track==0){
-            track++;
-        }
     }
     // track action
     let data = {
         trackValue: track,
         undoRedoTracker
     }
-    socket.emit("redo",data);
+    socket.emit("undoRedo",data);
 })
 
-function undoCanvas(trackObj) {
+function undoRedoCanvas(trackObj) {
     track = trackObj.trackValue;
     undoRedoTracker = trackObj.undoRedoTracker;
-    console.log(track);
-    console.log(undoRedoTracker);
-    let url = undoRedoTracker[track+1];
-    let img = new Image(); // new image reference element
-    img.src = url;
-    img.onload = (e) => {
-        tool.clearRect(0, 0, canvas.width, canvas.height);
-        tool.drawImage(img, 0, 0, canvas.width, canvas.height);
-    }
-}
 
-function redoCanvas(trackObj) {
-    track = trackObj.trackValue;
-    undoRedoTracker = trackObj.undoRedoTracker;
-    console.log(track);
-    console.log(undoRedoTracker);
     let url = undoRedoTracker[track];
     let img = new Image(); // new image reference element
     img.src = url;
@@ -204,11 +185,8 @@ socket.on("beginPath", (data) => {
 socket.on("drawStroke", (data) => {
     drawStroke(data);
 })
-socket.on("undo", (data) => {
-    undoCanvas(data);
-})
-socket.on("redo", (data) => {
-    redoCanvas(data);
+socket.on("undoRedo", (data) => {
+    undoRedoCanvas(data);
 })
 socket.on("backgroundCanvas", (data) => {
     setBackgroundColorCanvas(data);
