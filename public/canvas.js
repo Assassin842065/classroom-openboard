@@ -68,7 +68,7 @@ undo.addEventListener("click", (e) => {
     socket.emit("undo",data);
 })
 redo.addEventListener("click", (e) => {
-    if (track < undoRedoTracker.length-1) track++;
+    if (track <= undoRedoTracker.length-1) track++;
     // track action
     let data = {
         trackValue: track,
