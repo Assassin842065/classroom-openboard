@@ -32,4 +32,7 @@ io.on("connection", (socket) => {
     socket.on("backgroundCanvas", (data) => {
         io.sockets.emit("backgroundCanvas", data);
     })
+    socket.on("clearFrame",(data)=>{
+        io.sockets.emit("clearFrame", data);
+    })
 })

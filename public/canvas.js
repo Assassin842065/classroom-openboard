@@ -155,6 +155,22 @@ function setBackgroundColorCanvas(data) {
         document.body.style.backgroundColor=col;
     }
 }
+clearFrame.addEventListener("click",(e)=>{
+    let data = {
+        trackValue: track,
+        undoRedoTracker
+    }
+    socket.emit("clearFrame",data);
+})
+
+function clear(data) {
+    tool.clearRect(0,0,canvas.width,canvas.height);
+
+    track=data.trackValue;
+    undoRedoTracker=data.undoRedoTracker;
+    track=0;
+    undoRedoTracker=[];
+}
 
 socket.on("beginPath", (data) => {
     beginPath(data);
@@ -170,5 +186,8 @@ socket.on("redo", (data) => {
 })
 socket.on("backgroundCanvas", (data) => {
     setBackgroundColorCanvas(data);
+})
+socket.on("clearFrame",(data)=>{
+    clear(data);
 })
 
