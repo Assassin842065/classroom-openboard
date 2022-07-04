@@ -17,7 +17,7 @@ let penWidth = pencilWidthElem.value;
 let eraserWidth = eraserWidthElem.value;
 
 let undoRedoTracker = []; //Data
-let track = 0; // Represent which action from tracker array
+let track = -1; // Represent which action from tracker array
 
 let mouseDown = false;
 
