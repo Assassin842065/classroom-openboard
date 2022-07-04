@@ -153,17 +153,26 @@ backgroundColors.forEach(color => {
 });
 
 function setBackgroundColorCanvas(data) {
-    let col=data.backColor;
+     let col=data.backColor;
+    // if(col=="blueish"){
+    //     document.body.style.backgroundColor="#273c75";
+    //     eraserColor="#273c75";
+    // }else if(col=="blackish"){
+    //     document.body.style.backgroundColor="#1e272e";
+    //     eraserColor="#1e272e";
+    // }else{
+    //     document.body.style.backgroundColor=col;
+    //     eraserColor=col;
+    // }
+
     if(col=="blueish"){
-        document.body.style.backgroundColor="#273c75";
-        eraserColor="#273c75";
+        tool.fillStyle="#273c75";
     }else if(col=="blackish"){
-        document.body.style.backgroundColor="#1e272e";
-        eraserColor="#1e272e";
+        tool.fillStyle="#1e272e";
     }else{
-        document.body.style.backgroundColor=col;
-        eraserColor=col;
+        tool.fillStyle=col;
     }
+    tool.fillRect(0,0,canvas.width,canvas.height);
 }
 clearFrame.addEventListener("click",(e)=>{
     let data = {
