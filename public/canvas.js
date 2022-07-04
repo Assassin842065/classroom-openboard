@@ -29,12 +29,14 @@ tool.lineWidth = penWidth;
 
 // mousedown -> start new path, mousemove -> path fill (graphics)
 canvas.addEventListener("mousedown", (e) => {
-    mouseDown = true;
-    let data = {
-        x: e.clientX,
-        y: e.clientY
+    if(e.button==0){
+        mouseDown = true;
+        let data = {
+            x: e.clientX,
+            y: e.clientY
+        }
+        socket.emit("beginPath",data);
     }
-    socket.emit("beginPath",data);
 })
 canvas.addEventListener("mousemove", (e) => {
     if (mouseDown) {
@@ -48,11 +50,13 @@ canvas.addEventListener("mousemove", (e) => {
     }
 })
 canvas.addEventListener("mouseup", (e) => {
-    mouseDown = false;
+    if(e.button==0){
+        mouseDown = false;
 
-    let url = canvas.toDataURL();
-    undoRedoTracker.push(url);
-    track++;
+        let url = canvas.toDataURL();
+        undoRedoTracker.push(url);
+        track=undoRedoTracker.length-1;
+    }   
 })
 
 undo.addEventListener("click", (e) => {
@@ -68,7 +72,7 @@ undo.addEventListener("click", (e) => {
     socket.emit("undo",data);
 })
 redo.addEventListener("click", (e) => {
-    if (track <= undoRedoTracker.length-1) track++;
+    if (track < undoRedoTracker.length-1) track++;
     // track action
     let data = {
         trackValue: track,
