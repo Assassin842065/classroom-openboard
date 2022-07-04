@@ -27,14 +27,13 @@ tool.lineWidth = penWidth;
 
 // mousedown -> start new path, mousemove -> path fill (graphics)
 canvas.addEventListener("mousedown", (e) => {
-    if(e.button==0){
-        mouseDown = true;
-        let data = {
-            x: e.clientX,
-            y: e.clientY
-        }
-        socket.emit("beginPath",data);
+    mouseDown = true;
+    let data = {
+        x: e.clientX,
+        y: e.clientY
     }
+    // send data to server
+    socket.emit("beginPath", data);
 })
 canvas.addEventListener("mousemove", (e) => {
     if (mouseDown) {
@@ -44,58 +43,44 @@ canvas.addEventListener("mousemove", (e) => {
             color: eraserFlag ? eraserColor : penColor,
             width: eraserFlag ? eraserWidth : penWidth
         }
-        socket.emit("drawStroke",data);
+        socket.emit("drawStroke", data);
     }
 })
 canvas.addEventListener("mouseup", (e) => {
-    if(e.button==0){
-        mouseDown = false;
+    mouseDown = false;
 
-        let url = canvas.toDataURL();
-        undoRedoTracker.push(url);
-        track++;
-    }   
+    let url = canvas.toDataURL();
+    undoRedoTracker.push(url);
+    track = undoRedoTracker.length-1;
 })
 
 undo.addEventListener("click", (e) => {
-    if (track>=0)
-    {
-        track--;
-    }
-    
-    let data = {
-        trackValue: track,
-        undoRedoTracker
-    }
-    socket.emit("undoRedo",data);
-})
-redo.addEventListener("click", (e) => {
-    if (track < undoRedoTracker.length-1){
-        track++;
-        if(track==0){
-            track++;
-        }
-    }
+    if (track > 0) track--;
     // track action
     let data = {
         trackValue: track,
         undoRedoTracker
     }
-    socket.emit("undoRedo",data);
+    socket.emit("undoRedo", data);
+})
+redo.addEventListener("click", (e) => {
+    if (track < undoRedoTracker.length-1) track++;
+    // track action
+    let data = {
+        trackValue: track,
+        undoRedoTracker
+    }
+    socket.emit("undoRedo", data);
 })
 
 function undoRedoCanvas(trackObj) {
     track = trackObj.trackValue;
     undoRedoTracker = trackObj.undoRedoTracker;
-    if(track==-1){
-        tool.clearRect(0,0,canvas.width,canvas.height);
-        return;
-    }
+
     let url = undoRedoTracker[track];
     let img = new Image(); // new image reference element
     img.src = url;
     img.onload = (e) => {
-        tool.clearRect(0, 0, canvas.width, canvas.height);
         tool.drawImage(img, 0, 0, canvas.width, canvas.height);
     }
 }
@@ -146,7 +131,9 @@ download.addEventListener("click", (e) => {
     a.click();
 })
 
+
 socket.on("beginPath", (data) => {
+    // data -> data from server
     beginPath(data);
 })
 socket.on("drawStroke", (data) => {
@@ -155,5 +142,3 @@ socket.on("drawStroke", (data) => {
 socket.on("undoRedo", (data) => {
     undoRedoCanvas(data);
 })
-
-
