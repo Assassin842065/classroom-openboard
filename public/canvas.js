@@ -156,10 +156,13 @@ function setBackgroundColorCanvas(data) {
     let col=data.backColor;
     if(col=="blueish"){
         document.body.style.backgroundColor="#273c75";
+        eraserColor="#273c75";
     }else if(col=="blackish"){
         document.body.style.backgroundColor="#1e272e";
+        eraserColor="#1e272e";
     }else{
         document.body.style.backgroundColor=col;
+        eraserColor=col;
     }
 }
 clearFrame.addEventListener("click",(e)=>{
