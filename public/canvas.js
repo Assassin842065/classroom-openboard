@@ -72,6 +72,9 @@ undo.addEventListener("click", (e) => {
 redo.addEventListener("click", (e) => {
     if (track < undoRedoTracker.length-1){
         track++;
+        if(track==0){
+            track++;
+        }
     }
     // track action
     let data = {
