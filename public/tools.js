@@ -113,7 +113,7 @@ function noteActions(minimize, remove, stickyCont) {
         stickyCont.remove();
     })
     minimize.addEventListener("click", (e) => {
-        let noteCont = stickyCont.querySelector(".note-cont");
+        let noteCont = stickyCont.querySelector(".sticky-note");
         let display = getComputedStyle(noteCont).getPropertyValue("display");
         if (display === "none") noteCont.style.display = "block";
         else noteCont.style.display = "none";

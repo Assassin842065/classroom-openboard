@@ -51,7 +51,7 @@ canvas.addEventListener("mouseup", (e) => {
 
     let url = canvas.toDataURL();
     undoRedoTracker.push(url);
-    track++;
+    track=undoRedoTracker.length-1;
 })
 
 undo.addEventListener("click", (e) => {
